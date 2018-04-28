@@ -1,0 +1,17 @@
+{% foreach bdi_name %}
+interface <bdi_name>
+ {% if description %} 
+ description <description>
+ {% endif %}
+ {% if vrf %}
+ vrf forwarding <vrf>
+ {% endif %}
+ ip address <ip> <netmask>
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ %%{% if shut %}
+ shutdown
+ %%{% endif %}
+!
+{% endfor %}

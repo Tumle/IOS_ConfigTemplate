@@ -1,0 +1,32 @@
+{% foreach if_name %}  
+interface <if_name>
+  {% if description %} 
+ description <description>
+  {% endif %}
+ no ip address
+ logging event link-status
+ load-interval 30
+ carrier-delay up 2
+ carrier-delay down msec 0
+ dampening
+ service-policy input PM-INGRESS
+ service-policy output PM-EGRESS
+  {% if auto_neg %}
+ negotiation auto
+  {% else %}
+ no negotiation auto
+  {% endif %}
+ shutdown
+ !
+ {% foreach vlan %}
+ service instance <vlan> ethernet
+  {% if description %} 
+  description <description>
+  {% endif %}
+  encapsulation dot1q <vlan>
+  rewrite ingress tag pop 1 symmetric
+  bridge-domain <bd_id>
+  !
+ {% endfor %}
+!
+{% endfor %}
